@@ -1,11 +1,16 @@
 import logging
+import re
 from pathlib import Path
 
 import requests
 import typer
 import xlsxwriter
 
-ENDPOINT = "https://api.elsevier.com/content/search/scopus"
+SEARCH_ENDPOINT = "https://api.elsevier.com/content/search/scopus"
+CITATIONS_ENDPOINT = "https://api.elsevier.com/content/abstract/citations"
+
+CITATIONS_PATTERN = re.compile(r"CITATIONS\((?P<id>2-s2\.0-[0-9]+)\)", re.IGNORECASE)
+
 DEFAULT_OUTPUT_FILENAME = "scopus.xlsx"
 MAX_NUMBER_OF_RESULTS_PER_REQUEST = 25
 
@@ -28,8 +33,14 @@ def scopus_search(
     entries = []
     while len(entries) < number_of_results:
         logging.info(f"Results so far: {len(entries)}")
-        res = requests.get(ENDPOINT, params={
+        match = CITATIONS_PATTERN.match(query)
+        res = requests.get(SEARCH_ENDPOINT, params={
             "query": query,
+            "apiKey": api_key,
+            "start": len(entries),
+            "count": MAX_NUMBER_OF_RESULTS_PER_REQUEST,
+        }) if match is None else requests.get(CITATIONS_ENDPOINT, params={
+            "scopus_id": match.group("id"),
             "apiKey": api_key,
             "start": len(entries),
             "count": MAX_NUMBER_OF_RESULTS_PER_REQUEST,
