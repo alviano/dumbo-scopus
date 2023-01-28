@@ -49,12 +49,22 @@ def scopus_search(
             print(f"Unexpected status code: {res.status_code}")
             break
 
-        data = res.json()['abstract-citations-response' if match else 'search-results']
-        if 'entry' not in data:
-            logging.info(f"No results in the last query. All results already retrieved.")
-            break
+        data = res.json()
+        if match:
+            data = data['abstract-citations-response']
+            if 'citeInfoMatrix' not in data or \
+                    'citationMatrix' not in data['citeInfoMatrix'] or \
+                    'citeInfo' not in data['citeInfoMatrix']['citationMatrix']:
+                logging.info(f"No results in the last query. All results already retrieved.")
+                break
+            data = data['citeInfoMatrixXML']['citationMatrix']['citeInfo']
+        else:
+            data = data['search-results']
+            if 'entry' not in data:
+                logging.info(f"No results in the last query. All results already retrieved.")
+                break
+            data = data['entry']
 
-        data = data['entry']
         for index, entry in enumerate(data):
             keys.update(entry.keys())
             entries.append(entry)
