@@ -34,6 +34,11 @@ def scopus_search(
     while len(entries) < number_of_results:
         logging.info(f"Results so far: {len(entries)}")
         match = CITATIONS_PATTERN.match(query)
+
+        # must be done with a web scraper (and from an IP of the university)
+        # https://www.scopus.com/results/citedbyresults.uri?sort=plf-f&src=s&sot=cite&cite=2-s2.0-85137357213
+        # then select all and export as csv
+
         res = requests.get(SEARCH_ENDPOINT, params={
             "query": query,
             "apiKey": api_key,
