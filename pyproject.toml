@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "dumbo-scopus"
-version = "0.2.3"
+version = "0.2.4"
 description = "Simple CLI to search on Scopus and obtain the results in a XLSX file"
 authors = ["Mario Alviano <mario.alviano@gmail.com>"]
 readme = "README.md"
