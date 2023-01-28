@@ -49,7 +49,7 @@ def scopus_search(
             print(f"Unexpected status code: {res.status_code}")
             break
 
-        data = res.json()['search-results']
+        data = res.json()['abstract-citations-response' if match else 'search-results']
         if 'entry' not in data:
             logging.info(f"No results in the last query. All results already retrieved.")
             break
