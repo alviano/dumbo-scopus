@@ -9,7 +9,7 @@ import xlsxwriter
 SEARCH_ENDPOINT = "https://api.elsevier.com/content/search/scopus"
 CITATIONS_ENDPOINT = "https://api.elsevier.com/content/abstract/citations"
 
-CITATIONS_PATTERN = re.compile(r"CITATIONS\((?P<id>2-s2\.0-[0-9]+)\)", re.IGNORECASE)
+CITATIONS_PATTERN = re.compile(r"CITATIONS\((2-s2\.0-)?(?P<id>[0-9]+)\)", re.IGNORECASE)
 
 DEFAULT_OUTPUT_FILENAME = "scopus.xlsx"
 MAX_NUMBER_OF_RESULTS_PER_REQUEST = 25
