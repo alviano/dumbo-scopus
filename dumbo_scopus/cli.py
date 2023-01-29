@@ -1,3 +1,4 @@
+import csv
 import logging
 import os
 import re
@@ -9,7 +10,6 @@ from typing import Optional
 
 import requests
 import typer
-import xlsxwriter
 from selenium import webdriver
 
 from dumbo_scopus.utils import is_file_open_by_other_processes
@@ -18,7 +18,7 @@ SEARCH_ENDPOINT = "https://api.elsevier.com/content/search/scopus"
 
 SCOPUS_ID_PATTERN = re.compile(r"2-s2\.0-[0-9]+")
 
-DEFAULT_OUTPUT_FILENAME = "scopus"
+DEFAULT_OUTPUT_FILENAME = "scopus.csv"
 MAX_NUMBER_OF_RESULTS_PER_REQUEST = 25
 
 
@@ -33,7 +33,7 @@ def scopus_search(
                                     help="Your Scopus API key from https://dev.elsevier.com/"),
         number_of_results: int = typer.Option(MAX_NUMBER_OF_RESULTS_PER_REQUEST, "--number-of-results", "-n",
                                               help="The number of wanted results"),
-        output_filename: Path = typer.Option(f"{DEFAULT_OUTPUT_FILENAME}.xlsx", "--output-filename", "-o",
+        output_filename: Path = typer.Option(f"{DEFAULT_OUTPUT_FILENAME}", "--output-filename", "-o",
                                              help="The path to the output file to be produced (must be writable)"),
         with_log: bool = typer.Option(False, "--with-log", "-l", help="Print logging information"),
 ) -> None:
@@ -77,10 +77,9 @@ def scopus_search(
     for entry in entries:
         rows.append([str(entry[key]) if key in entry.keys() else None for key in keys])
 
-    with xlsxwriter.Workbook(output_filename) as workbook:
-        worksheet = workbook.add_worksheet()
-        for index, row in enumerate(rows):
-            worksheet.write_row(index, 0, row)
+    with open(output_filename, "w") as output_file:
+        writer = csv.writer(output_file)
+        writer.writerows(rows)
 
 
 @app.command("citations")
@@ -88,7 +87,7 @@ def scopus_citations(
         scopus_id: str = typer.Argument(..., help="The Scopus ID of the queried article. "
                                                   "For example, 2-s2.0-84949895809"),
         proxy: Optional[str] = typer.Option(None, help="Proxy server for the Chrome browser"),
-        output_filename: Path = typer.Option(f"{DEFAULT_OUTPUT_FILENAME}.csv", "--output-filename", "-o",
+        output_filename: Path = typer.Option(f"{DEFAULT_OUTPUT_FILENAME}", "--output-filename", "-o",
                                              help="The path to the output file to be produced (must be writable)"),
         show_browser: bool = typer.Option(False, "--show-browser", "-s", help="Show all automatic interactions with "
                                                                               "the browser"),

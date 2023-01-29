@@ -6,11 +6,14 @@ Simple CLI to search on Scopus and obtain the results in a XLSX file.
 # Prerequisites
 
 - Python 3.10
-- An API key from http://dev.elsevier.com
+- An API key from [Elsevier](http://dev.elsevier.com)
+- [ChromeDriver](https://sites.google.com/chromium.org/driver/downloads?authuser=0) (download and install the most appropriate version for your OS)
+
 
 
 # Install
 
+Install using `pip`:
 ```bash
 $ pip install dumbo-scopus
 ```
@@ -25,7 +28,7 @@ $ python -m dumbo_scopus search --help
 $ python -m dumbo_scopus citations --help
 ```
 
-Use the following command line to perform a Scopus Search and obtain the result as an Excel file:
+Use the following command line to perform a Scopus Search and obtain the result as a CSV file:
 ```bash
 $ python -m dumbo_scopus search "TITLE(magic sets)" --api-key=YOUR-API-KEY
 ```

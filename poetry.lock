@@ -299,18 +299,10 @@ python-versions = ">=3.7.0"
 [package.dependencies]
 h11 = ">=0.9.0,<1"
 
-[[package]]
-name = "xlsxwriter"
-version = "3.0.7"
-description = "A Python module for creating Excel XLSX files."
-category = "main"
-optional = false
-python-versions = ">=3.6"
-
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "70740857f6d57e49550497f18a91ce3f736dd1304bf93380b2caea8c708d1942"
+content-hash = "9bee95780a9204aebdf3c275a52578c0c74262417541c1af3953af563587a55d"
 
 [metadata.files]
 async-generator = [
@@ -565,8 +557,4 @@ urllib3 = [
 wsproto = [
     {file = "wsproto-1.2.0-py3-none-any.whl", hash = "sha256:b9acddd652b585d75b20477888c56642fdade28bdfd3579aa24a4d2c037dd736"},
     {file = "wsproto-1.2.0.tar.gz", hash = "sha256:ad565f26ecb92588a3e43bc3d96164de84cd9902482b130d0ddbaa9664a85065"},
-]
-xlsxwriter = [
-    {file = "XlsxWriter-3.0.7-py3-none-any.whl", hash = "sha256:d79dadac9dcbff3c24281764b052b46bcdb391f3184f337c4c4e6ed8d2738d7d"},
-    {file = "XlsxWriter-3.0.7.tar.gz", hash = "sha256:1239958b12da12be6abf05b32f64ff162eb75fff0fdf00d901ca0f46dc0557cf"},
 ]
